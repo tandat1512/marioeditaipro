@@ -1,5 +1,21 @@
 from __future__ import annotations
 
+# Setup Python path TRƯỚC KHI import các module khác
+# Điều này cho phép relative imports hoạt động khi chạy từ thư mục backend
+import sys
+from pathlib import Path
+
+# Setup Python path để relative imports hoạt động khi chạy từ thư mục backend
+backend_dir = Path(__file__).parent.resolve()
+parent_dir = backend_dir.parent.resolve()
+current_working_dir = Path.cwd().resolve()
+
+# Nếu đang ở trong thư mục backend, thêm thư mục cha vào path
+# Điều này cho phép Python nhận backend như một package và relative imports hoạt động
+if current_working_dir == backend_dir:
+    if str(parent_dir) not in sys.path:
+        sys.path.insert(0, str(parent_dir))
+
 import json
 import logging
 from typing import Any, Optional
