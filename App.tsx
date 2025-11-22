@@ -644,7 +644,7 @@ function App() {
 
   return (
     <div className="flex h-screen flex-col bg-[#09090b] text-white overflow-hidden">
-      <Header filename={filename} hasImage={!!originalImage} />
+      <Header filename={filename} hasImage={!!originalImage} displayImage={displayImage} />
       
       <div className="flex flex-1 overflow-hidden">
         <LeftSidebar 
