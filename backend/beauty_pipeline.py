@@ -990,7 +990,7 @@ def _apply_iris_donut_brightening(
         alpha=_alpha_from_strength(0.4, 0.35, strength),
     )
     if np.any(pupil_guard):
-        result[pupil_guard > 0] = image[pupil_guard > 0]
+        result[pupil_guard > 0] = 0
     return result
 
 
