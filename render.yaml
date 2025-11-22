@@ -4,10 +4,11 @@ services:
     env: python
     region: singapore
     plan: free
-    runtime: python3.11
     buildCommand: pip install --upgrade pip && pip install -r backend/requirements.txt
     startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
       - key: ALLOWED_ORIGINS
         value: https://your-frontend.vercel.app
         sync: false
