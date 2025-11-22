@@ -380,17 +380,17 @@ const AI_SECTIONS: AISection[] = [
             {
                 id: 'ai_beauty_full',
                 title: 'Tự chỉnh toàn diện',
-                description: 'Tự động cân bằng ánh sáng, màu sắc và độ nét'
+                description: 'AI phân tích và tự động cải thiện toàn bộ: ánh sáng, màu sắc, độ nét, làm đẹp da & mắt. Phù hợp mọi loại ảnh.'
             },
             {
                 id: 'ai_beauty_portrait',
                 title: 'Tối ưu chân dung',
-                description: 'Làm đẹp da, mắt và ánh sáng cho ảnh chân dung'
+                description: 'Chuyên sâu cho ảnh chân dung: làm mịn da, tăng sáng mắt, giảm quầng thâm, tối ưu ánh sáng chuyên nghiệp.'
             },
             {
                 id: 'ai_beauty_tone',
                 title: 'AI Smart Tone',
-                description: 'Gợi ý tone màu phù hợp nhất với ảnh'
+                description: 'Gợi ý và áp dụng tone màu phù hợp nhất: warm/cool, vibrant/muted. Tập trung vào màu sắc và mood.'
             }
         ]
     },
@@ -1454,7 +1454,7 @@ const deriveSceneErrorMessage = (error: unknown) => {
                                     <p className="text-[11px] text-gray-400">{activeAIInsight.summary}</p>
                                     {!!activeAIInsight.steps?.length && (
                                         <ul className="list-disc list-inside text-[11px] text-gray-500 space-y-1">
-                                            {activeAIInsight.steps.slice(0, 3).map((step, index) => (
+                                            {activeAIInsight.steps.map((step, index) => (
                                                 <li key={index}>{step}</li>
                                             ))}
                                         </ul>

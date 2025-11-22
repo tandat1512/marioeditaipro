@@ -10,7 +10,11 @@ import cv2
 import mediapipe as mp
 import numpy as np
 
-from models import BeautyConfig, FaceMeta, MouthValues, PointModel
+try:
+    from .models import BeautyConfig, FaceMeta, MouthValues, PointModel
+except ImportError:
+    # Fallback for running directly from backend directory
+    from models import BeautyConfig, FaceMeta, MouthValues, PointModel
 
 mp_face_mesh = mp.solutions.face_mesh
 _FACE_LOCK = threading.Lock()
@@ -986,7 +990,7 @@ def _apply_iris_donut_brightening(
         alpha=_alpha_from_strength(0.4, 0.35, strength),
     )
     if np.any(pupil_guard):
-        result[pupil_guard > 0] = 0
+        result[pupil_guard > 0] = image[pupil_guard > 0]
     return result
 
 

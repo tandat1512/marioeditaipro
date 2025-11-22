@@ -9,9 +9,15 @@ import numpy as np
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
-from beauty_pipeline import BeautyPipeline
-from config import get_settings
-from models import BeautyConfig, BeautyResponse, FaceAnalysisResponse
+try:
+    from .beauty_pipeline import BeautyPipeline
+    from .config import get_settings
+    from .models import BeautyConfig, BeautyResponse, FaceAnalysisResponse
+except ImportError:
+    # Fallback for running directly from backend directory
+    from beauty_pipeline import BeautyPipeline
+    from config import get_settings
+    from models import BeautyConfig, BeautyResponse, FaceAnalysisResponse
 
 logger = logging.getLogger(__name__)
 
