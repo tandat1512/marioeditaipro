@@ -10,7 +10,7 @@ import cv2
 import mediapipe as mp
 import numpy as np
 
-from .models import BeautyConfig, FaceMeta, MouthValues, PointModel
+from models import BeautyConfig, FaceMeta, MouthValues, PointModel
 
 mp_face_mesh = mp.solutions.face_mesh
 _FACE_LOCK = threading.Lock()
