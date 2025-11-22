@@ -20,15 +20,26 @@ import json
 import logging
 from typing import Any, Optional
 
+
+import sys
+import os
+
+# --- THÊM ĐOẠN NÀY VÀO ĐẦU FILE ---
+# Dòng này giúp Python luôn tìm thấy các file cùng thư mục bất kể bạn chạy từ đâu
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+# ----------------------------------
+
+from typing import Any, Optional
 import cv2
 import numpy as np
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import ValidationError
 
+# --- SỬA LẠI PHẦN IMPORT (KHÔNG DÙNG DẤU CHẤM) ---
 from beauty_pipeline import BeautyPipeline
 from config import get_settings
-from models import AIProResponse, BeautyConfig, BeautyResponse, FaceAnalysisResponse, SkinBrightenResponse
+from models import AIProResponse, BeautyConfig, BeautyResponse, FaceAnalysisResponse, SkinBrightenResponse, SkinValues
 
 # Configure logging
 logging.basicConfig(
@@ -143,7 +154,6 @@ async def brighten_skin(
         img = await _load_image(image)
         
         # Tạo config chỉ với whiten
-        from .models import SkinValues, BeautyConfig
         skin_values = SkinValues(whiten=whiten)
         config = BeautyConfig(skinValues=skin_values)
         

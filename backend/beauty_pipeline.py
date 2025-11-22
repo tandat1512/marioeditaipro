@@ -1,5 +1,12 @@
 from __future__ import annotations
 
+import sys
+import os
+
+# --- THÊM ĐOẠN NÀY ĐỂ KHÔNG BAO GIỜ LỖI IMPORT NỮA ---
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+# -----------------------------------------------------
+
 import base64
 import math
 import threading
@@ -10,6 +17,7 @@ import cv2
 import mediapipe as mp
 import numpy as np
 
+# --- DÙNG DÒNG NÀY (KHÔNG CÓ DẤU CHẤM) ---
 from models import BeautyConfig, FaceMeta, MouthValues, PointModel
 
 mp_face_mesh = mp.solutions.face_mesh
