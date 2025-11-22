@@ -10,9 +10,9 @@ from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import ValidationError
 
-from .beauty_pipeline import BeautyPipeline
-from .config import get_settings
-from .models import AIProResponse, BeautyConfig, BeautyResponse, FaceAnalysisResponse, SkinBrightenResponse
+from beauty_pipeline import BeautyPipeline
+from config import get_settings
+from models import AIProResponse, BeautyConfig, BeautyResponse, FaceAnalysisResponse, SkinBrightenResponse
 
 # Configure logging
 logging.basicConfig(
