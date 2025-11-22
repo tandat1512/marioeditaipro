@@ -107,7 +107,6 @@ export interface BeautyValues {
     };
     eyeValues: { 
         enlarge: number; 
-        brightness: number; 
         darkCircle: number; 
         depth: number; 
     };

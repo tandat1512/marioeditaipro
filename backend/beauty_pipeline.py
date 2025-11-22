@@ -10,7 +10,7 @@ import cv2
 import mediapipe as mp
 import numpy as np
 
-from models import BeautyConfig, FaceMeta, MouthValues, PointModel
+from .models import BeautyConfig, FaceMeta, MouthValues, PointModel
 
 mp_face_mesh = mp.solutions.face_mesh
 _FACE_LOCK = threading.Lock()
@@ -954,42 +954,6 @@ def _apply_iris_ring_highlight(
     return _add_catch_light_precise(result, region.center, region.radius, catch_angle_deg, strength)
 
 
-def _apply_iris_donut_brightening(
-    image: np.ndarray,
-    region: IrisRegion,
-    strength: float,
-) -> np.ndarray:
-    if strength <= 0:
-        return image
-    donut_mask, pupil_guard = _iris_donut_mask(region)
-    if not np.any(donut_mask):
-        return image
-    lab = cv2.cvtColor(image, cv2.COLOR_BGR2LAB)
-    l, a, b = cv2.split(lab)
-    clahe = cv2.createCLAHE(
-        clipLimit=1.5 + 2.0 * strength,
-        tileGridSize=(4, 4),
-    )
-    l_boost = clahe.apply(l)
-    mask_norm = donut_mask.astype(np.float32) / 255.0
-    mix = 0.45 + 0.4 * strength
-    l = np.clip(
-        l.astype(np.float32) * (1.0 - mask_norm * mix) + l_boost.astype(np.float32) * (mask_norm * mix),
-        0,
-        255,
-    ).astype(np.uint8)
-    enhanced = cv2.cvtColor(cv2.merge([l, a, b]), cv2.COLOR_LAB2BGR)
-    result = _blend(
-        image,
-        enhanced,
-        donut_mask,
-        alpha=_alpha_from_strength(0.4, 0.35, strength),
-    )
-    if np.any(pupil_guard):
-        result[pupil_guard > 0] = 0
-    return result
-
-
 def _local_eye_enlarge(
     image: np.ndarray,
     region: IrisRegion,
@@ -1129,54 +1093,15 @@ def _apply_skin_pipeline(image: np.ndarray, analysis: Optional[FaceAnalysis], co
         lab = cv2.cvtColor(result, cv2.COLOR_BGR2LAB)
         l, a, b = cv2.split(lab)
 
-        # Cải thiện thuật toán Sáng da với Frequency Separation và Adaptive Brightening
+        # Whitening giữ nguyên behaviour cũ
         if skin.whiten > 0:
-            whiten_strength = _ease_strength(skin.whiten, power=1.15)
-            
-            # Frequency Separation: Tách ảnh thành low-frequency (màu sắc) và high-frequency (chi tiết)
-            sigma = 3.0 + 2.0 * whiten_strength
-            low_freq = cv2.GaussianBlur(l.astype(np.float32), (0, 0), sigmaX=sigma)
-            high_freq = l.astype(np.float32) - low_freq
-            
-            # Adaptive brightening: Sáng hóa dựa trên độ sáng hiện tại
-            # Vùng tối được sáng hóa nhiều hơn, vùng sáng ít hơn để tránh overexposure
-            l_normalized = low_freq / 255.0
-            
-            # Curve adjustment: Sử dụng S-curve để tăng độ sáng tự nhiên
-            # Tăng độ sáng vùng tối-trung bình nhiều hơn, vùng sáng ít hơn
-            boost_map = np.power(l_normalized, 0.7) * (1.0 + whiten_strength * 0.6)
-            boost_map = np.clip(boost_map, 0.0, 1.0)
-            
-            # Áp dụng boost với falloff mượt
-            brightened_low = low_freq + (255.0 - low_freq) * boost_map * whiten_strength * 0.45
-            
-            # CLAHE để tăng độ tương phản cục bộ cho vùng da
-            clahe = cv2.createCLAHE(
-                clipLimit=1.5 + whiten_strength * 1.2,
-                tileGridSize=(8, 8)
+            l = cv2.normalize(
+                l,
+                None,
+                alpha=0,
+                beta=255 + skin.whiten * 0.8,
+                norm_type=cv2.NORM_MINMAX,
             )
-            brightened_low = clahe.apply(np.clip(brightened_low, 0, 255).astype(np.uint8))
-            
-            # Kết hợp lại với high-frequency để giữ chi tiết
-            l = np.clip(brightened_low.astype(np.float32) + high_freq, 0, 255).astype(np.uint8)
-            
-            # Điều chỉnh sắc độ a/b để da trông tự nhiên hơn (giảm đỏ, tăng vàng nhẹ)
-            if whiten_strength > 0.3:
-                # Giảm đỏ (giảm a channel)
-                a_adj = a.astype(np.float32)
-                a_adj[mask > 0] = np.clip(
-                    a_adj[mask > 0] - whiten_strength * 8.0 * (a_adj[mask > 0] - 128) / 128.0,
-                    0, 255
-                )
-                a = a_adj.astype(np.uint8)
-                
-                # Tăng vàng nhẹ (tăng b channel)
-                b_adj = b.astype(np.float32)
-                b_adj[mask > 0] = np.clip(
-                    b_adj[mask > 0] + whiten_strength * 4.0 * (1.0 - (b_adj[mask > 0] - 128) / 128.0),
-                    0, 255
-                )
-                b = b_adj.astype(np.uint8)
 
         # Đều màu da: tăng độ nhạy theo slider thay vì gần như 1 mức
         if skin.even > 0:
@@ -1476,25 +1401,6 @@ def _apply_eye_and_mouth(image: np.ndarray, analysis: Optional[FaceAnalysis], co
         )
         result = _frequency_separation_lighten(result, left_dark_mask, dark_strength)
         result = _frequency_separation_lighten(result, right_dark_mask, dark_strength)
-
-    if eye_vals.brightness > 0 and iris_regions:
-        bright_strength = min(1.0, eye_vals.brightness / 100.0)
-        for idx, region in enumerate(iris_regions):
-            if not np.any(region.mask):
-                continue
-            result = _apply_iris_donut_brightening(
-                result,
-                region,
-                bright_strength,
-            )
-            catch_angle = -55.0 if idx == 0 else 55.0
-            result = _add_catch_light_precise(
-                result,
-                region.center,
-                region.radius,
-                catch_angle,
-                bright_strength * 0.8,
-            )
 
     if eye_vals.eyelid != 0:
         lid_strength = _ease_strength(eye_vals.eyelid, 1.25)

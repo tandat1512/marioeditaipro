@@ -1,10 +1,11 @@
-fastapi>=0.104.0
-uvicorn[standard]>=0.24.0
-pydantic>=2.0.0
-pydantic-settings>=2.0.0
-opencv-python>=4.8.0
-numpy>=1.24.0,<2.0.0
-mediapipe>=0.10.0
-pillow>=10.0.0
-python-multipart>=0.0.6
+fastapi==0.121.3
+uvicorn[standard]==0.38.0
+pydantic==2.12.4
+pydantic-settings==2.12.0
+opencv-python==4.12.0.88
+numpy==2.2.6
+mediapipe==0.10.14
+pillow==12.0.0
+python-multipart==0.0.20
+python-dotenv==1.2.1
 

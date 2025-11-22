@@ -59,7 +59,12 @@ CÀI ĐẶT
       pip install -r requirements.txt
    
    d. Chạy backend server:
-      uvicorn backend.main:app --reload
+      Từ thư mục gốc:
+      uvicorn backend.main:app --reload --port 8000
+      
+      Hoặc từ thư mục backend:
+      cd backend
+      uvicorn main:app --reload --port 8000
    
    Backend sẽ chạy tại: http://localhost:8000
    API Documentation: http://localhost:8000/docs
@@ -122,11 +127,13 @@ Nếu cần thêm origin khác, chỉnh sửa file backend/config.py
 SỬ DỤNG
 -------
 1. Khởi động backend trước:
+   
+   Từ thư mục gốc (khuyến nghị):
+   uvicorn backend.main:app --reload --port 8000
+   
+   Hoặc từ thư mục backend:
    cd backend
    uvicorn main:app --reload --port 8000
-   
-   Hoặc từ thư mục gốc:
-   uvicorn backend.main:app --reload --port 8000
 
 2. Khởi động frontend:
    npm run dev

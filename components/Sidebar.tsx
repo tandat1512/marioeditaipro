@@ -380,17 +380,17 @@ const AI_SECTIONS: AISection[] = [
             {
                 id: 'ai_beauty_full',
                 title: 'Tự chỉnh toàn diện',
-                description: 'Chuyên nghiệp: Cân bằng ánh sáng, màu sắc, độ nét cho TOÀN BỘ ẢNH. Phù hợp: Phong cảnh, sản phẩm, kiến trúc, mọi loại ảnh.'
+                description: 'AI phân tích và tự động cân bằng ánh sáng, màu sắc, độ nét cho toàn bộ ảnh. Phù hợp mọi loại ảnh.'
             },
             {
                 id: 'ai_beauty_portrait',
                 title: 'Tối ưu chân dung',
-                description: 'Chuyên biệt: Chỉ làm đẹp DA và ánh sáng KHUÔN MẶT. Không điều chỉnh mắt. Dành riêng cho ảnh chân dung.'
+                description: 'Tập trung làm đẹp da, sáng mắt, cân bằng ánh sáng khuôn mặt. Chuyên biệt cho ảnh chân dung.'
             },
             {
                 id: 'ai_beauty_tone',
                 title: 'AI Smart Tone',
-                description: 'Sáng tạo: Phân tích và tạo phong cách màu sắc chuyên nghiệp (warm/cool/cinematic/vintage/moody...). Tạo mood và style nghệ thuật.'
+                description: 'Phân tích ảnh và gợi ý tone màu phù hợp (warm/cool/cinematic/vintage...). Tạo phong cách màu sắc chuyên nghiệp.'
             }
         ]
     },

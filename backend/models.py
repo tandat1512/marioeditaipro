@@ -35,7 +35,6 @@ class FaceValues(BaseModel):
 
 class EyeValues(BaseModel):
     enlarge: float = 0
-    brightness: float = 0
     darkCircle: float = 0
     depth: float = 0
     eyelid: float = 0
@@ -115,4 +114,13 @@ class SkinBrightenRequest(BaseModel):
 class SkinBrightenResponse(BaseModel):
     image: str
     faceMeta: Optional[FaceMeta] = None
+
+
+class AIProResponse(BaseModel):
+    """Response model for AI Pro module endpoints"""
+    previewImage: Optional[str] = None
+    maskImage: Optional[str] = None
+    previewMeta: Optional[Dict[str, Any]] = None
+    adjustments: Optional[Dict[str, Any]] = None
+    metrics: Optional[Dict[str, Any]] = None
 

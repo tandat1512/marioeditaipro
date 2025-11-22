@@ -68,7 +68,7 @@ function App() {
     skinValues: { smooth: 0, whiten: 0, even: 0, korean: 0, texture: 50 },
     acneMode: { auto: false, manualPoints: [] },
     faceValues: { slim: 0, vline: 0, chinShrink: 0, forehead: 0, jaw: 0, noseSlim: 0, noseBridge: 0 },
-    eyeValues: { enlarge: 0, darkCircle: 0, depth: 0, eyelid: 0, brightness: 0 },
+    eyeValues: { enlarge: 0, darkCircle: 0, depth: 0, eyelid: 0 },
     eyeMakeup: { eyeliner: false, lens: 'none' },
     mouthValues: { smile: 0, volume: 0, heart: 0, teethWhiten: 0 },
     lipstick: 'none',
@@ -311,7 +311,7 @@ function App() {
         skinValues: { smooth: 0, whiten: 0, even: 0, korean: 0, texture: 50 },
         acneMode: { auto: false, manualPoints: [] },
         faceValues: { slim: 0, vline: 0, chinShrink: 0, forehead: 0, jaw: 0, noseSlim: 0, noseBridge: 0 },
-        eyeValues: { enlarge: 0, darkCircle: 0, depth: 0, eyelid: 0, brightness: 0 },
+        eyeValues: { enlarge: 0, darkCircle: 0, depth: 0, eyelid: 0 },
         eyeMakeup: { eyeliner: false, lens: 'none' },
         mouthValues: { smile: 0, volume: 0, heart: 0, teethWhiten: 0 },
         lipstick: 'none',
@@ -520,7 +520,7 @@ function App() {
           // Let's assume standard AI flow here: New Base.
           setTransformValues({ rotate: 0, rotateFree: 0, flipHorizontal: false, flipVertical: false, straighten: 0, aspectRatio: 'original', crop: null });
           setBasicValues({ exposure: 0, brightness: 0, contrast: 0, highlights: 0, shadows: 0, whites: 0, blacks: 0, temp: 0, tint: 0, vibrance: 0, saturation: 0, hue: 0, grayscale: 0, sharpen: 0, blur: 0, clarity: 0, texture: 0, dehaze: 0, denoise: 0 });
-          setBeautyValues({ skinMode: 'natural', faceMode: 'natural', skinValues: { smooth: 0, whiten: 0, even: 0, korean: 0, texture: 50 }, acneMode: { auto: false, manualPoints: [] }, faceValues: { slim: 0, vline: 0, chinShrink: 0, forehead: 0, jaw: 0, noseSlim: 0, noseBridge: 0 }, eyeValues: { enlarge: 0, darkCircle: 0, depth: 0, eyelid: 0, brightness: 0 }, eyeMakeup: { eyeliner: false, lens: 'none' }, mouthValues: { smile: 0, volume: 0, heart: 0, teethWhiten: 0 }, lipstick: 'none', hairValues: { smooth: 0, volume: 0, shine: 0 }, hairColor: 'original' });
+          setBeautyValues({ skinMode: 'natural', faceMode: 'natural', skinValues: { smooth: 0, whiten: 0, even: 0, korean: 0, texture: 50 }, acneMode: { auto: false, manualPoints: [] }, faceValues: { slim: 0, vline: 0, chinShrink: 0, forehead: 0, jaw: 0, noseSlim: 0, noseBridge: 0 }, eyeValues: { enlarge: 0, darkCircle: 0, depth: 0, eyelid: 0 }, eyeMakeup: { eyeliner: false, lens: 'none' }, mouthValues: { smile: 0, volume: 0, heart: 0, teethWhiten: 0 }, lipstick: 'none', hairValues: { smooth: 0, volume: 0, shine: 0 }, hairColor: 'original' });
           setFilterValues({ selectedCategory: 'trending', selectedPreset: null, intensity: 70 });
           
           handleDismissAiPreview(moduleId);

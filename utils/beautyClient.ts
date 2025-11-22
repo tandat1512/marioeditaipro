@@ -102,7 +102,6 @@ function convertBeautyValuesToBackendConfig(values: BeautyValues): any {
       darkCircle: values.eyeValues.darkCircle,
       depth: values.eyeValues.depth,
       eyelid: values.eyeValues.eyelid,
-      brightness: values.eyeValues.brightness,
     },
     mouthValues: {
       smile: values.mouthValues.smile,
